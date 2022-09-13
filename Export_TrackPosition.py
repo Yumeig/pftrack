@@ -1,6 +1,6 @@
 import pfpy
 from pfpy import Tracker, Clip
-import tempfile
+import os
 
 def pfNodeName():
     return 'Export_TrackPosition'
@@ -57,7 +57,7 @@ def main():
     x += '\tsetAttr ".al" yes;\n'
     x += '\tsetAttr ".dar" '+'%g'%(float(width)*asp/float(height))+';\n'
 
-    with open('C:\Users\Administrator\Desktop\TrackerPosition.ma', 'w') as f:
+    with open(os.path.expanduser('~/Desktop/TrackerPosition.ma'), 'w') as f:
         f.write(x)
 
 
