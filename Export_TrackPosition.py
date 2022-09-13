@@ -31,23 +31,24 @@ def main():
 
     for i in range(num):
         t = pfpy.getTrackerRef(i)
-        x += 'createNode transform -n "p{0}";\n'.format(i+1)
-        x += 'createNode locator -n "Null_Tracker{0}" -p "p{0}";\n'.format(i+1)
+        name = t.getName()
+        x += 'createNode transform -n "{0}";\n'.format(name)
+        x += 'createNode locator -n "Null_{0}" -p "{0}";\n'.format(name)
 
-        x += 'createNode animCurveTL -n "p{0}_tX";\n'.format(i+1)
+        x += 'createNode animCurveTL -n "{0}_tX";\n'.format(name)
         x += '\tsetAttr -s {0} ".ktv[{1}:{2}]" '.format(outPoint, 0, outPoint-1)
         for j in range(inPoint,outPoint+1):
             x += '{0} {1} '.format(j-1, t.getTrackPosition(j)[0])
         x += ';'
 
-        x += '\ncreateNode animCurveTL -n "p{0}_tY";\n'.format(i+1)
+        x += '\ncreateNode animCurveTL -n "{0}_tY";\n'.format(name)
         x += '\tsetAttr -s {0} ".ktv[{1}:{2}]" '.format(outPoint, 0, outPoint-1)
         for j in range(inPoint,outPoint+1):
             x += '{0} {1} '.format(j-1, (height - t.getTrackPosition(j)[1]) * -1)
         x += ';'
 
-        x += '\nconnectAttr "p{0}_tX.o" "p{0}.tx";'.format(i+1)
-        x += '\nconnectAttr "p{0}_tY.o" "p{0}.ty";\n\n'.format(i+1)
+        x += '\nconnectAttr "{0}_tX.o" "{0}.tx";'.format(name)
+        x += '\nconnectAttr "{0}_tY.o" "{0}.ty";\n\n'.format(name)
 
     x += '\nselect -ne :defaultResolution;\n'
     x += '\tsetAttr ".w" '+'%d'%width+';\n'
